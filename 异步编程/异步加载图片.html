@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>异步加载图片体验JS任务操作</title>
+</head>
+<body>
+  <script>
+    function loadImage (src, resolve, reject) {
+      let image = new Image();
+      image.src = src;
+
+      image.onload = () => {
+        resolve(image)
+      }
+
+      image.onerror = () => {
+        reject()
+      }
+    }
+
+    loadImage('../images/1.jpg', (image) => {
+      console.log('图片加载完成！')
+      document.body.appendChild(image)
+    }, () => {
+      console.log('图片加载失败！')
+    });
+
+    console.log('我先执行')
+  </script>
+</body>
+</html>

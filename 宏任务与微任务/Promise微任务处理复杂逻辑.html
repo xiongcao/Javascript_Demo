@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Promise微任务处理复杂逻辑</title>
+</head>
+<body>
+  <script>
+    function sum(num) {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          let count = 0;
+          for (let i = 0; i < num; i++) {
+            count += num--;
+          }
+          resolve(count);
+        })
+      })
+    }
+
+    async function handle(num) {
+
+      // 宏任务的方式
+      // sum(num).then(res => {
+      //   console.log(res)
+      // })
+
+      // 微任务的方式
+      let res = await Promise.resolve().then(_ => {
+        let count = 0;
+        for (let i = 0; i < num; i++) {
+          count += num--;
+        }
+        return count
+      })
+
+      console.log(res)
+    }
+
+    let num = 987654321
+    handle(num)
+    console.log('小熊一下就打印出来了')
+  </script>
+</body>
+</html>

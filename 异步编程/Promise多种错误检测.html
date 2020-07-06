@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Promise多种错误检测</title>
+</head>
+<body>
+  <script>
+    new Promise((resolve, reject) => {
+      resolve()
+
+      // 方法一 promise定义的错误
+      // reject(new Error('promise fail'))
+
+      // 方法二 自定义抛出的错误
+      // throw new Error('fail')
+
+      // 方法三 系统错误(语法错误等等)
+      // xiaoxoing + 1
+    }).then(
+      res => {
+        // 用then处理错误的弊端
+        // 我这里有错误必须得 下一个 then的第二个方法 来检测错误
+        return xiaoxoing + 1
+      },
+      err => {
+        // 这里能检测 前一个promise 抛出的 所有错误
+        console.log(err)
+      }
+    )
+    // .then(
+    //   res => {
+    //     console.log(res, 'then===success===2')
+    //   },
+    //   err => {
+    //     console.log(err, 'then===error===2')
+    //   }
+    // )
+    .catch(
+      // 通杀(捕获)一切错误
+      err => {
+        console.log(err)
+      }
+    )
+  </script>
+</body>
+</html>

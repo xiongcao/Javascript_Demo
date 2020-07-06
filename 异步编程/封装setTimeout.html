@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>封装setTimeout</title>
+</head>
+<body>
+  <script>
+    function timeout(delay) {
+      return new Promise(resolve => setTimeout(resolve, delay))
+    }
+
+    timeout(2000).then(res => {
+      console.log('2s后，小🐈来了')
+      return timeout(1000)
+    }).then(res => {
+      console.log('再1s后，小🐂来了')
+      return timeout(1000)
+    }).then(res => {
+      console.log('对不起，我是最后一个到的')
+    })
+
+  </script>
+</body>
+</html>

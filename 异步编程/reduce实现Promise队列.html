@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>reduce实现Promise队列</title>
+</head>
+
+<body>
+  <script>
+    function query(num) {
+      num.reduce((promise, n) => {
+        return promise.then(_ => {
+          return n()
+        })
+      }, Promise.resolve())
+    }
+
+    function p1() {
+      return new Promise(resolve => {
+        setTimeout(_ => {
+          console.log('p1')
+          resolve()
+        }, 1000)
+      })
+    }
+
+    function p2() {
+      return new Promise(resolve => {
+        setTimeout(_ => {
+          console.log('p2')
+          resolve()
+        }, 1000)
+      })
+    }
+
+    // query([1, 2, 3, 4, 5])
+
+    query([p1, p2])
+  </script>
+</body>
+
+</html>

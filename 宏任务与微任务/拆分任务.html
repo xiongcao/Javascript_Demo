@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>将任务拆分为多个子任务</title>
+</head>
+<body>
+  <script>
+    /** 小熊要等好长时间才能 打印出来 */
+    // function run () {
+    //   for (let i = 0; i < num; i++) {
+    //     count += num--
+    //   }
+    //   console.log(count)
+    // }
+
+    // let num = 987654321
+    // let count = 0
+    // run()
+    // console.log('小熊要等好长时间 打印出来')
+
+    /** 小熊一下就打印出来了，计算在后台正常运行 */
+    function run () {
+      for (let i = 0; i < 1000000; i++) {
+        if (num <= 0) break;
+        count += num--
+      }
+      if (num > 0) {
+        setTimeout(run);
+      } else {
+        console.log(count, '自己在后台慢慢玩')
+      }
+    }
+
+    let num = 987654321
+    let count = 0
+    run()
+    console.log('小熊一下就打印出来了')
+  </script>
+</body>
+</html>

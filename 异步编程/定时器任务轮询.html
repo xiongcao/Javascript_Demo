@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>定时器任务轮询</title>
+  <style>
+    div {
+      position: relative;
+      width: 100px;
+      height: 100px;
+      background: greenyellow;
+    }
+  </style>
+</head>
+<body>
+  <div></div>
+  <script>
+    function interval(callback, delay) {
+      let id = setInterval(() => callback(id), delay)
+    }
+    interval((timeId) => {
+        const div = document.querySelector('div')
+        let left = parseInt(window.getComputedStyle(div).left)
+        div.style.left = left + 10 + 'px'
+
+        if (left >= 200) {
+          clearInterval(timeId)
+
+          interval((timeId) => {
+            let width = parseInt(window.getComputedStyle(div).width)
+            div.style.width = width - 10 + 'px'
+
+            if (width <= 20) {
+              clearInterval(timeId)
+            }
+          })
+        }
+    })
+    console.log('我最先执行！')
+  </script>
+</body>
+</html>

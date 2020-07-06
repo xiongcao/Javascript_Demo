@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>进度条实例体验任务轮询</title>
+  <style>
+    div {
+      width: 0;
+      height: 50px;
+      line-height: 50px;
+      text-align: center;
+      background: greenyellow;
+    }
+  </style>
+</head>
+<body>
+  <div></div>
+  <script>
+    let div = document.querySelector('div')
+
+    function handle () {
+      let i = 0;
+      (function run() {
+        div.innerHTML = i;
+        div.style.width = i + '%';
+        if (++i <= 100) {
+          setTimeout(run, 50);
+        }
+      })()
+    }
+    handle()
+  </script>
+</body>
+</html>

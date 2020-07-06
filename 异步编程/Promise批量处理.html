@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Promise批量处理异步</title>
+</head>
+<body>
+  <script>
+    const dog = new Promise((resolve, reject) => {
+      setTimeout(() => {
+        // resolve('第一个异步')
+        reject('error')
+      }, 1000)
+    })
+
+    const cat = new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve('第二个异步')
+        // reject('error2')
+      }, 1000)
+    })
+
+    // 只能全部成功
+    // Promise.all([dog, cat]).then(res => {
+    //   console.log(res)
+    // }).catch(err => {
+    //   console.log(err)
+    // })
+
+    // 不论成功失败都可以检测到，始终返回成功；场景，取接口中有值的数据
+    // Promise.allSettled([dog, cat]).then(res => {
+    //   console.log(res)
+    // }
+
+    // 只取最快返回的一个；场景：请求超时
+    Promise.race([dog, cat]).then(res => {
+      console.log(res)
+    }).catch(err => {
+      console.log(err)
+    })
+
+  </script>
+</body>
+</html>

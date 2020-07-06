@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>定时器任务编排</title>
+</head>
+<body>
+  <script>
+
+    // 等待2s将宏任务放到 宏任务队列
+    let time1 = setTimeout(() => {
+      console.log('定时器 1')
+    }, 2000)
+
+    // 等待1s将任务放到 宏任务队列
+    let time2 = setTimeout(() => {
+      console.log('定时器 2')
+    }, 1000)
+
+    // 宏任务 顺序为 time2 -> time1
+    
+    // 以下代码同步执行
+    console.log('小熊')
+
+    // 循环执行结束 立即执行 宏任务
+    for (let i = 0; i < 4000; i++) {
+      console.log('')
+    }
+
+    // 打印顺序
+    // 小熊
+    // 10000
+    // 定时器 2
+    // 定时器 1
+  </script>
+</body>
+</html>
