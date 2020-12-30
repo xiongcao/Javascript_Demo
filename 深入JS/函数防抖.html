@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>函数防抖</title>
+</head>
+<body>
+  <div id="box"></div>
+  <script>
+    // 场景： ajax请求数据  输入验证
+    let oBox = document.getElementById('box');
+
+    function test() {
+
+    }
+
+    oBox.onmouseover = debounce(test);
+  </script>
+</body>
+</html>
