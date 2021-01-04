@@ -123,3 +123,35 @@ const pm2 = () => {
 Promise.race([pm1(), pm2()]).then((value) => {
   console.log(value)
 })
+
+
+console.log('=========== Promise HHHHH ============')
+// console.log(4);
+
+// let p = new Promise((resolve, reject) => {
+//   resolve(3);
+//   setTimeout(() => {
+//    console.log(2); 
+//   });
+//   console.log(1);
+// })
+
+// console.log(5);
+
+// p.then(res => {
+//   console.log(res);
+// })
+
+// promise 是微任务，在异步任务（setTimeout）之前
+// 4
+// 1
+// 5
+// 3
+// 2
+
+
+// 3，7，setTimeout，4，resolve(1)，resolve(2)
+// resolve(1) => 1,
+// resolve(2) => 2,
+// setTimeout => 5
+
