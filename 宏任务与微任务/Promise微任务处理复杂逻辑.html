@@ -6,6 +6,12 @@
   <title>Promise微任务处理复杂逻辑</title>
 </head>
 <body>
+  浏览器常驻的线程：
+1.	js 引擎线程（解释和执行js 代码,  JS内核-V8引擎 ，js引擎用来解释执行js代码 ）
+2.	GUI 线程（绘制用户界面， 与js 主线程是互斥的）;
+3.	http 网络请求线程（处理用户的get， post 等请求等， 返回结果后讲回调函数推入到任务队列）；
+4.	定时器触发线程（setTimeout， setInterval 等待时间结束后把执行函数推入到任务队列中）；
+5.	浏览器事件处理线程（将click， mouse 等交互事件发生后将这些事件放入到事件队列中）；
   <script>
     function sum(num) {
       return new Promise(resolve => {

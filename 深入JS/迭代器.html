@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>迭代器</title>
+</head>
+
+<body>
+  <script>
+    console.log('================= 迭代器初探 ==================')
+    let arr = [1, 2, 3];
+    let str = '123';
+    let obj = { a: 1, b: 2, c: 3 };
+
+    // arr 原型上有 Symbol(Symbol.iterator)
+    for (const k of arr) {
+      console.log(k);
+    }
+
+    // str 原型上有 Symbol(Symbol.iterator)
+    for (const k of str) {
+      console.log(k);
+    }
+
+    // obj 原型上没有 Symbol(Symbol.iterator)
+    // for (const k of obj) { // Uncaught TypeError: obj is not iterable
+    //   console.log(k, obj[k]);
+    // }
+
+    console.log('================= 迭代器 使用 ==================')
+
+    let iter = arr[Symbol.iterator]();
+    console.log(iter.next()); // {value: 1, done: false}
+    console.log(iter.next()); // {value: 2, done: false}
+    console.log(iter.next()); // {value: 3, done: false}
+    console.log(iter.next()); // {value: undefined, done: true}
+
+    console.log('================= 迭代器 实现 ==================')
+
+    function myIterator(list) {
+      let index = 0;
+      return {
+        next() {
+          if (index < list.length) {
+            return {
+              value: list[index++],
+              done: false
+            }
+          }
+          return {
+            value: undefined,
+            done: true
+          }
+        }
+      }
+    }
+
+    let myIter = myIterator(arr);
+    console.log(myIter.next()); // {value: 1, done: false}
+    console.log(myIter.next()); // {value: 2, done: false}
+    console.log(myIter.next()); // {value: 3, done: false}
+    console.log(myIter.next()); // {value: undefined, done: true}
+
+    console.log('================= 对象 迭代器 实现 ==================')
+
+    let obj2 = {
+      a: 1,
+      b: 2,
+      c: 3,
+      [Symbol.iterator]() {
+        let map = new Map();
+        for (const key in obj2) {
+          if (Object.hasOwnProperty.call(obj2, key)) {
+            const value = obj2[key];
+            map.set(key, value);
+          }
+        }
+        let index = 0;
+        return {
+          next() {
+            let mapEntries = [...map.entries()];
+            if (index < map.size) {
+              return {
+                value: mapEntries[index++],
+                done: false
+              }
+            }
+            return {
+              value: undefined,
+              done: true
+            }
+          }
+        }
+      }
+    }
+    let objIter = obj2[Symbol.iterator]();
+    console.log(objIter.next())
+    console.log(objIter.next())
+    console.log(objIter.next())
+    console.log(objIter.next())
+
+    // 遍历和迭代的区别
+    // 从目标源依次获取，逐个抽取的方式提取数据
+    // 目标源：1.有序的；2.连续的
+    // Array, String, Arguments, Map, Set, TypeArray, NodeList;
+
+  </script>
+</body>
+
+</html>

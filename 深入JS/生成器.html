@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>生成器</title>
+</head>
+
+<body>
+  <script>
+    console.log('================= 生成器初探 ==================')
+
+    // 生成器函数 + 执行器函数
+    function* test () {
+      const value1 = yield 1;
+      console.log(value1);
+      const value2 = yield 2;
+      console.log(value2);
+      const value3 = yield 3;
+      console.log(value3);
+    }
+
+    let iterator = test();
+
+    // for (const it of iterator) {
+    //   console.log(it)
+    // }
+
+    console.log(iterator.next('one')); // {value: 1, done: false}
+    console.log(iterator.next('two')); // two, {value: 2, done: false}
+    console.log(iterator.next('three')); // three, {value: 3, done: false}
+    console.log(iterator.next()); // undefined, {value: undefined, done: true}
+
+    console.log('================= 对象 迭代器 实现 ==================')
+
+    let obj = {
+      a: 1,
+      b: 2,
+      c: 3,
+      [Symbol.iterator]: function* () {
+        let index = 0;
+        let map = new Map();
+        for (const key in obj) {
+          if (Object.hasOwnProperty.call(obj, key)) {
+            const value = obj[key];
+            map.set(key, value);
+          }
+        }
+        let mapEntries = [...map.entries()];
+        while(index < mapEntries.length) {
+          yield mapEntries[index++];
+        }
+      }
+    }
+    let objIter = obj[Symbol.iterator]();
+    console.log(objIter.next());
+    console.log(objIter.next());
+    console.log(objIter.next());
+    
+    // for (const it of obj) {
+    //   console.log(it)
+    // }
+  </script>
+</body>
+
+</html>
