@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>对象拷贝</title>
+</head>
+
+<body>
+  <pre>
+    // 浅拷贝，只拷贝一层
+    function simpleClone(obj) {
+      let cloneObj = {};
+      
+      // es3 的写法
+      // for (const key in obj) {
+      //   if (Object.hasOwnProperty.call(obj, key)) {
+      //     cloneObj[key] = obj[key];
+      //   }
+      // }
+
+      // es6 的写法
+      // console.log(Object.keys(obj)) // ["a", "b"]
+      // for (const key of Object.keys(obj)) {
+      //   cloneObj[key] = obj[key]
+      // }
+
+      // or 
+      // console.log(Object.entries(obj)) // [["a", 1], ["b", 2]]
+      // for (const [key, value] of Object.entries(obj)) {
+      //   cloneObj[key] = value;
+      // }
+
+      // es5 的写法
+      // console.log(Object.getOwnPropertyNames(obj)) // ["a", "b"]
+      // Object.getOwnPropertyNames(obj).forEach(function(key) {
+      //   cloneObj[key] = obj[key]
+      // })
+
+      // or 
+      // console.log(Object.getOwnPropertyDescriptor(obj, 'a'))
+      // =>
+      // {
+      //   configurable: true,
+      //   enumerable: true,
+      //   writable: true,
+      //   value: 1
+      // }
+      Object.getOwnPropertyNames(obj).forEach(function(key) {
+        const des = Object.getOwnPropertyDescriptor(obj, key);
+        Object.defineProperty(cloneObj, key, des);
+      })
+
+      return cloneObj;
+    }
+
+    <hr>
+
+    function deepClone(obj, cloneObj) {
+      cloneObj = cloneObj || {};
+      for (const i in obj) {
+
+        if (typeof obj[i] === 'object' && obj[i] !== null) {
+          // 判断是否是数组
+          // cloneObj[i] = Array.isArray(obj[i]) ? [] : {}; // 方法一
+          // cloneObj[i] = obj[i] instanceof Array ? [] : {}; // 方法二
+          cloneObj[i] = Object.prototype.toString.call(obj[i]) === '[object Array]' ? [] : {}; // 方法三
+          deepClone(obj[i], cloneObj[i]);
+        } else {
+          cloneObj[i] = obj[i];
+        }
+      }
+
+      return cloneObj;
+    }
+  </pre>
+  <script>
+    /*************** 浅拷贝 ***************/
+    console.log('*************** 浅拷贝 ***************')
+
+    let obj = {
+      a: 1,
+      b: 2
+    }
+
+    // 浅拷贝，只拷贝一层
+    function simpleClone(obj) {
+      let cloneObj = {};
+
+      // es3 的写法
+      // for (const key in obj) {
+      //   if (Object.hasOwnProperty.call(obj, key)) {
+      //     cloneObj[key] = obj[key];
+      //   }
+      // }
+
+      // es6 的写法
+      // console.log(Object.keys(obj)) // ["a", "b"]
+      // for (const key of Object.keys(obj)) {
+      //   cloneObj[key] = obj[key]
+      // }
+
+      // or 
+      // console.log(Object.entries(obj)) // [["a", 1], ["b", 2]]
+      // for (const [key, value] of Object.entries(obj)) {
+      //   cloneObj[key] = value;
+      // }
+
+      // es5 的写法
+      // console.log(Object.getOwnPropertyNames(obj)) // ["a", "b"]
+      // Object.getOwnPropertyNames(obj).forEach(function(key) {
+      //   cloneObj[key] = obj[key]
+      // })
+
+      // or 
+      // console.log(Object.getOwnPropertyDescriptor(obj, 'a'))
+      // =>
+      // {
+      //   configurable: true,
+      //   enumerable: true,
+      //   writable: true,
+      //   value: 1
+      // }
+      Object.getOwnPropertyNames(obj).forEach(function (key) {
+        const des = Object.getOwnPropertyDescriptor(obj, key);
+        Object.defineProperty(cloneObj, key, des);
+      })
+
+      return cloneObj;
+    }
+
+    let o1 = simpleClone(obj);
+    o1.a = 111;
+    obj.b = 222;
+    console.log(obj, o1)
+
+    /*************** 深拷贝 ***************/
+    console.log('*************** 深拷贝 ***************')
+
+
+    function deepClone(obj, cloneObj) {
+      cloneObj = cloneObj || {};
+      for (const i in obj) {
+
+        if (typeof obj[i] === 'object' && obj[i] !== null) {
+          // 判断是否是数组
+          // cloneObj[i] = Array.isArray(obj[i]) ? [] : {}; // 方法一
+          // cloneObj[i] = obj[i] instanceof Array ? [] : {}; // 方法二
+          cloneObj[i] = Object.prototype.toString.call(obj[i]) === '[object Array]' ? [] : {}; // 方法三
+          deepClone(obj[i], cloneObj[i]);
+        } else {
+          cloneObj[i] = obj[i];
+        }
+      }
+
+      return cloneObj;
+    }
+
+    let obj2 = {
+      a: 1,
+      b: {
+        c: 3,
+        d: {
+          e: 5,
+          f: [7, 9]
+        }
+      }
+    }
+
+    let o2 = deepClone(obj2);
+    obj2.a = 111;
+    obj2.b.c = 333;
+    obj2.b.d.e = 555;
+    obj2.b.d.f.push(777)
+    console.log(o2, obj2)
+
+  </script>
+</body>
+
+</html>

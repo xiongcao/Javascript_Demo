@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>reduce</title>
+</head>
+
+<body>
+  <script>
+    var maxCallback = (acc, cur) => {
+      return Math.max(acc.x, cur.x)
+    };
+    var maxCallback2 = (max, cur) => Math.max(max, cur);
+
+    // reduce() 没有初始值
+    [{ x: 2 }, { x: 22 }, { x: 42 }].reduce(maxCallback); // NaN
+    [{ x: 2 }, { x: 22 }].reduce(maxCallback); // 22
+    // 如果数组仅有一个元素（无论位置如何）并且没有提供initialValue， 
+    // 或者有提供initialValue但是数组为空，那么此唯一值将被返回并且callback不会被执行
+    [{ x: 2 }].reduce(maxCallback); // { x: 2 }
+    // 如果数组为空且没有提供initialValue，会抛出TypeError 
+    // [].reduce(maxCallback); // TypeError
+
+    // map/reduce; 这是更好的方案，即使传入空数组或更大数组也可正常执行
+    [{ x: 22 }, { x: 42 }].map(el => el.x)
+      .reduce(maxCallback2, -Infinity);
+
+    // 实例1: 数组元素求和
+    var sum = [0, 1, 2, 3].reduce(
+      (accumulator, currentValue) => accumulator + currentValue
+      , 0
+    )
+
+    // 实例2： 对象数组元素求和
+    var sum = [{ x: 1 }, { x: 2 }, { x: 3 }].reduce(
+      (accumulator, currentValue) => accumulator + currentValue.x
+      , 0
+    )
+    //  logs 6
+
+    // 实例3： 将二维数组转化为一维
+    var flattened = [[0, 1], [2, 3], [4, 5]].reduce(
+      (arr, cur) => arr.concat(cur)
+      , []
+    )
+    // flattened is [0, 1, 2, 3, 4, 5]
+
+    // 实例4： 计算数组中每个元素出现的次数
+
+    var names = ['Alice', 'Bob', 'Tiff', 'Bruce', 'Alice'];
+
+    var countedNames = names.reduce(
+      (accumulator, currentValue) => {
+        if (currentValue in accumulator) {
+          accumulator[currentValue]++;
+        } else {
+          accumulator[currentValue] = 1;
+        }
+        return accumulator;
+      },
+      {}
+    )
+    // countedNames is: { 'Alice': 2, 'Bob': 1, 'Tiff': 1, 'Bruce': 1 }
+
+    // 实例5： 按属性对object分类
+    var people = [
+      { name: 'Alice', age: 21 },
+      { name: 'Max', age: 20 },
+      { name: 'Jane', age: 20 }
+    ];
+
+    function groupBy(objectArray, property) {
+      return objectArray.reduce(function (acc, obj) {
+        var key = obj[property];
+        if (!acc[key]) {
+          acc[key] = [];
+        }
+        acc[key].push(obj);
+        return acc;
+      }, {});
+    }
+
+    var groupedPeople = groupBy(people, 'age');
+
+    // console.log(groupedPeople)
+
+    // groupedPeople is:
+    // {
+    //   20: [
+    //     { name: 'Max', age: 20 },
+    //     { name: 'Jane', age: 20 }
+    //   ],
+    //   21: [{ name: 'Alice', age: 21 }]
+    // }
+
+    // 实例6： 使用扩展运算符和initialValue绑定包含在对象数组中的数组
+    var friends = [{
+      name: 'Anna',
+      books: ['Bible', 'Harry Potter'],
+      age: 21
+    }, {
+      name: 'Bob',
+      books: ['War and peace', 'Romeo and Juliet'],
+      age: 26
+    }, {
+      name: 'Alice',
+      books: ['The Lord of the Rings', 'The Shining'],
+      age: 18
+    }];
+
+    var allbooks = friends.reduce(
+      (acc, cur) => {
+        return [...acc, ...cur.books];
+      }
+      , ['Alphabet']
+    )
+
+    // console.log(allbooks)
+
+    // allbooks = [
+    //   'Alphabet', 'Bible', 'Harry Potter', 'War and peace',
+    //   'Romeo and Juliet', 'The Lord of the Rings',
+    //   'The Shining'
+    // ]
+
+
+    // 实例7： 数组去重
+    let myArray = ['a', 'b', 'a', 'b', 'c', 'e', 'e', 'c', 'd', 'd', 'd', 'd']
+
+    // console.log(myArray.sort()) // ["a", "a", "b", "b", "c", "c", "d", "d", "d", "d", "e", "e"]
+    var myOrderedArray = myArray.sort().reduce(
+      (a, b) => {
+        if (a.indexOf(b) === -1) {
+          a.push(b);
+        }
+        return a;
+      }
+      , []
+    )
+
+    // console.log(myOrderedArray) // ["a", "b", "c", "d", "e"]
+
+    let arr = [1, 2, 1, 2, 3, 5, 4, 5, 3, 4, 4, 4, 4];
+    var result = arr.sort((a, b) => a - b).reduce(
+      (a, b) => {
+        if (a.length === 0 || a[a.length - 1] !== b) {
+          a.push(b);
+        }
+        return a;
+      }
+      , []
+    );
+    // console.log(result); // [1, 2, 3, 4, 5]
+
+    // 实例8： 按顺序运行Promise
+    // promise function 1
+    function p1(a) {
+      return new Promise((resolve, reject) => {
+        resolve(a * 5);
+      });
+    }
+
+    // promise function 2
+    function p2(a) {
+      return new Promise((resolve, reject) => {
+        resolve(a * 2);
+      });
+    }
+
+    // function 3  - will be wrapped in a resolved promise by .then()
+    function f3(a) {
+      return a * 3;
+    }
+
+    // promise function 4
+    function p4(a) {
+      return new Promise((resolve, reject) => {
+        resolve(a * 4);
+      });
+    }
+
+    function runPromiseInSequence(fns, value) {
+      return fns.reduce(
+        (p, fn) => p.then(fn)
+        , Promise.resolve(value)
+      )
+    }
+
+    const promiseArr = [p1, p2, f3, p4];
+    runPromiseInSequence(promiseArr, 10)
+    // .then(console.log);   // 1200
+
+
+
+    // 实例9： 功能型函数管道
+    const double = x => x + x;
+    const triple = x => 3 * x;
+    const quadruple = x => 4 * x;
+
+    const multiply6 = pipe(double, triple);
+    const multiply9 = pipe(triple, triple);
+    const multiply16 = pipe(quadruple, quadruple);
+    const multiply24 = pipe(double, triple, quadruple);
+
+    function pipe(...fns) {
+      return (v) => {
+        return fns.reduce(
+          (value, fn) => {
+            return fn(value)
+          }
+          , v
+        );
+      }
+
+    }
+
+    console.log(multiply6(6)); // 36
+    console.log(multiply9(9)); // 81
+    console.log(multiply16(16)); // 256
+    console.log(multiply24(10)); // 240
+
+
+    // 实例10： 使用 reduce实现map
+
+    if (!Array.prototype.mapUsingReduce) {
+      Array.prototype.mapUsingReduce = function (callback, thisArg) {
+        return this.reduce(function (mappedArray, currentValue, index, array) {
+          mappedArray[index] = callback.call(thisArg, currentValue, index, array)
+          return mappedArray
+        }, [])
+      }
+    }
+
+    [1, 2, , 3].mapUsingReduce(
+      (currentValue, index, array) => currentValue + index + array.length
+    ) // [5, 7, , 10]
+  </script>
+</body>
+
+</html>
