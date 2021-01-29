@@ -23,7 +23,7 @@
 <script>
 import { inject, ref, onMounted, reactive } from 'vue';
 
-import Child from '../components/Child'
+import Child from '../../components/read-api/Child'
 
 export default {
   name: 'my-dom-ref',

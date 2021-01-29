@@ -12,7 +12,7 @@
 
 <script>
 import { ref, reactive, toRefs } from 'vue';
-import Test from '../components/Test'
+import Test from '../../components/read-api/Test'
 
 export default {
   name: 'my-setup',

@@ -28,7 +28,7 @@
 <script>
 import { ref } from 'vue';
 
-import { tab } from '../directives'
+import { tab } from '../../directives'
 
 export default {
   name: 'my-directive',

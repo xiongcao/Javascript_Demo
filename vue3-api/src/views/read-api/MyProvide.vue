@@ -11,7 +11,7 @@
 <script>
 import { provide, ref, reactive, readonly } from 'vue';
 
-import Parent from '../components/Parent'
+import Parent from '../../components/read-api/Parent'
 
 export default {
   name: 'my-provide',

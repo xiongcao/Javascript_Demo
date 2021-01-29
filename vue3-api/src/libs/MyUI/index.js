@@ -1,9 +1,11 @@
-import MyButton from './MyButton.vue'
-import MyInput from './MyInput.vue'
+import MyButton from './button/MyButton.vue'
+import MyInput from './input/MyInput.vue'
+import Carousel from './carousel/index.vue'
 
 const components = [
   MyButton,
-  MyInput
+  MyInput,
+  Carousel
 ]
 
 export default {
