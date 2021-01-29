@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    label {
+      display: inline-block;
+      width: 60px;
+      text-align: right;
+    }
+
+    .btn-group {
+      display: flex;
+      justify-content: space-around;
+      width: 160px;
+      margin-left: 60px;
+    }
+
+    .btn-group .btn-comput {
+      border: 1px solid #696868;
+      padding: 0 6px;
+      cursor: pointer;
+      box-shadow: 1px 1px 1px #474646;
+    }
+
+    .btn-group .btn-comput.active {
+      color: #ffffff;
+      background: orange;
+      border: 1px solid orange;
+      box-shadow: 1px 1px 1px rgb(194, 129, 8);
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>计算器</h1>
+    <p>
+      <label for="firstNumber">first:</label>
+      <input type="text" id="firstNumber" />
+    </p>
+    <p>
+      <label for="secondNumber">second:</label>
+      <input type="text" id="secondNumber" />
+    </p>
+    <div class="btn-group">
+      <div class="btn-comput active" data-field="plus">+</div>
+      <div class="btn-comput" data-field="minus">-</div>
+      <div class="btn-comput" data-field="mul">*</div>
+      <div class="btn-comput" data-field="div">/</div>
+    </div>
+    <div>
+      <p>
+        <label>result:</label>
+        <span class="result"></span>
+      </p>
+    </div>
+  </main>
+  <script src="./index.js"></script>
+</body>
+</html>
