@@ -1,0 +1,275 @@
+<title>链表结构</title>
+<pre>
+  + 数组
+    1.要存储多个元素，数组可能是最常用的数据结构。
+    2.几乎每一种编程语言都有默认实现数组结构。
+  
+  + 数组缺点
+    1.数组的创建通常需要申请一段连续的内存空间（整块的内存），并且大小是固定的（大多数编程语言数组都是固定的），
+      所以当 当前数组 不能满足容量需求时，需要扩容。（一般情况下是申请—个更大的数组，比如2倍。然后将原数组中的元素复制过去）。
+        
+    2.而且在数组开头或中间位置插入数据的成本很高，需要进行大量元素的位移。
+    
+    3.尽管我们已经学过的 JavaScript 的Array类方法可以帮我们做这些事，但背后的原理依然是这样。
+  
+  + 联表结构
+    1.不同于数组，链表中的元素在内存中不必是连续的空间。
+    2.链表的每个元素由一个存储元素本身的节点和一个指向下一个元素的引用（有些语言称为指针或者连接）组成。
+  
+  + 优点：
+    1.内存空间不是必须连续的。可以充分利用计算机的内存，实现灵活的内存动态管理。
+    2.链表不必在创建时就确定大小，并且大小可以无限的延伸下去。
+    3.链表在插入和删除数据时，时间复杂度可以达到O(1)。相对数组效率高很多。
+
+  + 结构模型
+    head -> { data, next } -> { data, next } -> { data, next } -> null;
+
+    head 指向下一个节点数据；
+    next 指向下一个节点数据；
+    data 当前节点数据
+  </pre>
+
+<script>
+  /***************  链表封装 ***********/
+  function LinkedList() {
+
+    // 内部类：节点类
+    function Node(data) {
+      this.data = data;
+      this.next = null;
+    }
+
+    // 属性
+    this.head = null;
+    this.length = 0;
+
+    // 向列表尾部添加一个新的项
+    LinkedList.prototype.append = function (data) {
+      const node = new Node(data);
+
+      // 1.是否是第一个节点，是，则将head指向新节点
+      if (this.length === 0) {
+
+        this.head = node;
+
+      } else { // 2.找到最后一个节点，将next等于当前的新节点
+
+        let currentNode = this.head;
+        while (currentNode.next) {
+          currentNode = currentNode.next;
+        }
+
+        // 最后一个节点的 next 指向新节点
+        currentNode.next = node;
+      }
+
+      this.length++;
+    }
+
+    // 向列表的特定位置 插入一个新的项
+    LinkedList.prototype.insert = function (position, data) {
+
+      // 1.对 position 进行越界判断
+      if (position < 0 || position > this.length) {
+        return false
+      }
+
+      // 2.创建节点数据
+      const node = new Node(data);
+
+      // 3.判断是否插入的是第一个位置
+      if (position === 0) {
+        node.next = this.head;
+        this.head = node;
+      } else {
+        // 4.插入的是中间位置
+
+        // 3.1 当前节点
+        let currentNode = this.head;
+        // 3.2 前一个节点
+        let prevNode = null;
+
+        // 3.2 当前节点索引
+        let index = 0;
+
+        while (index++ < position) {
+          prevNode = currentNode;
+          currentNode = currentNode.next;
+        }
+        node.next = currentNode;
+        prevNode.next = node;
+      }
+
+      this.length++;
+
+      return true;
+    }
+
+    // 获取对应位置的元素
+    LinkedList.prototype.get = function (position) {
+      // 1.对 position 进行越界判断
+      if (position < 0 || position >= this.length) {
+        return null
+      }
+
+      // 2.获取对应的data
+      let currentNode = this.head;
+
+      let index = 0;
+
+      while (index++ < position) {
+        currentNode = currentNode.next;
+      }
+
+      return currentNode.data;
+    }
+
+    // 返回元素在列表中的索引。如果列表中没有该元素，则返回-1
+    LinkedList.prototype.indexOf = function (data) {
+
+      let currentNode = this.head;
+
+      let index = 0;
+
+      while (currentNode) {
+        
+        if (data === currentNode.data) {
+          return index;
+        }
+        
+        currentNode = currentNode.next;
+
+        index++;
+      }
+
+      return -1;
+    }
+
+    // 修改某个位置的元素
+    LinkedList.prototype.update = function (position, data) {
+      // 1.对 position 进行越界判断
+      if (position < 0 || position >= this.length) {
+        return false
+      }
+
+      // 2.获取对应的data
+      let currentNode = this.head;
+
+      let index = 0;
+
+      while (index++ < position) {
+        currentNode = currentNode.next;
+      }
+
+      // 修改数据
+      currentNode.data = data;
+
+      return true;
+    }
+
+    // 从列表的特定位置删除一项
+    LinkedList.prototype.removeAt = function (position) {
+      // 1.对 position 进行越界判断
+      if (position < 0 || position >= this.length) {
+        return false
+      }
+      
+      let currentNode = this.head;
+      
+      // 2.判断是否删除的是第一个元素
+      if(position === 0) {
+        this.head = this.head.next;
+      } else {
+        let index = 0;
+        let prevNode = null;
+
+        while(index++ < position) {
+          prevNode = currentNode;
+          currentNode = currentNode.next;
+        }
+
+        // 前一个节点的next指向currentNode的next即可
+        prevNode.next = currentNode.next;
+      }
+
+      this.length--;
+
+      return currentNode.data;
+    }
+
+    // 从列表中删除一项
+    LinkedList.prototype.remove = function (data) {
+      // 1.根据元素获取 其位置
+      const postion = this.indexOf(data);
+
+      // 2.根绝位置信息，删除节点
+      return this.removeAt(postion);
+    }
+
+    // 如果链表中不包含任何元素，返回true；否则返回false
+    LinkedList.prototype.isEmpty = function () {
+      return this.length === 0;
+    }
+
+    // 返回链表中包含的元素个数
+    LinkedList.prototype.size = function () {
+      return this.length
+    }
+
+    // 由于列表项使用了Node类，就需要重写继承自JavaScript对象默认的toString方法，让其只输出元素的值
+    LinkedList.prototype.toString = function () {
+      let current = this.head;
+      let listString = '';
+
+      while (current) {
+        listString += current.data + ' ';
+        current = current.next;
+      }
+
+      return listString;
+    }
+  }
+
+
+  const linkedList = new LinkedList();
+
+  linkedList.append('22');
+
+  linkedList.insert(0, '11');
+
+  linkedList.insert(2, '33');
+
+  linkedList.append('44');
+
+  linkedList.get(2); // 33
+  linkedList.get(4); // null
+
+  linkedList.indexOf(11); // -1
+  linkedList.indexOf('11'); // 0
+  linkedList.indexOf('22'); // 1
+
+  linkedList.append('66'); // 66
+  linkedList.update(0, '111'); // true, 111
+  linkedList.update(4, '55'); // true, 55
+
+  linkedList.removeAt(0); // 111（22，33，44，55）
+  linkedList.removeAt(1); // 22（22，44，55）
+
+  linkedList.remove(22); // false（22，44，55）
+  linkedList.remove('22'); // true（44，55）
+
+  linkedList.size(); // 2（44，55）
+  linkedList.isEmpty(); // false（44，55）
+
+  linkedList.remove('44'); // false（55）
+  linkedList.remove('55'); // false（55）
+
+  linkedList.size(); // 0
+  linkedList.isEmpty(); // true
+</script>
+
+<style>
+  pre {
+    font-size: 14px;
+  }
+</style>
