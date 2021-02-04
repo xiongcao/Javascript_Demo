@@ -24,8 +24,8 @@
   + 结构模型
     head -> { data, next } -> { data, next } -> { data, next } -> null;
 
-    head 指向下一个节点数据；
-    next 指向下一个节点数据；
+    head 指向头部节点；
+    next 指向下一个节点；
     data 当前节点数据
   </pre>
 
@@ -55,6 +55,8 @@
       } else { // 2.找到最后一个节点，将next等于当前的新节点
 
         let currentNode = this.head;
+
+        // 找到最后一个节点
         while (currentNode.next) {
           currentNode = currentNode.next;
         }
