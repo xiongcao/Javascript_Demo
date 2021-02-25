@@ -1,0 +1,106 @@
+<title>大O表示法</title>
+<pre>
+
+  + 排序算法
+    1.排序算法有很多：冒泡排序/选择排序/插入排序/归并排序/计数排序( counting sort)/
+      基数排序(radix sort)/希尔排序/堆排序/桶排序；
+    2.我们这里不——列举它们的实现思想，而是选择几个 简单排序 和 高级排序；
+    3.简单排序：冒泡排序 - 选择排序 - 插入排序；
+    4.高级排序：希尔排序 - 快速排序。
+
+  + 冒泡排序
+    冒泡排序算法相对其他排序运行 效率较低 但是在概念上它是排序算法中 最简单的；
+
+  + 思路
+    对未排序的各元素 从头到尾 依次比较 相邻的两个元素 大小关系；
+    如果 左边的队员高，则两队员交换位置；
+    向右移动一个位置 比较下面两个队员；
+    当走到 最右端时，最高的队员 一定被放在了最右边；
+    按照这个思路，从最左端重新开始，这次走到倒数第二个位置的队员；
+    即可依次类推，就可以将数据排序完成。
+
+
+  + 代码解析
+    获取数组的长度；
+    外层循环应该让j依次减少，因此我们这里使用了反向的遍历；
+    内层循环我们使用i < j。因为上面的j在不断减小，这样就可以控制内层循环的次数；
+    比较两个数据项的大小，如果前面的大，那么就进行交换；
+
+  + 比较次数：
+    假如一共有7个数字；
+    第一次循环6次比较，第二次5次比较，第三次4次比较…到最后一趟进行了1次比较；
+    对于7个数据项比较次数：6+5+4+3+2+1；
+    对于N个数据项：(N-1)+(N-2)+(N-3)+…+1 = N*(N-1)/2。
+
+  + 冒泡排序的O表示法
+    N*(N-1)/2 = N²/2 - N/2，根据规则2，只保留最高阶项变成N²/2；
+    N²/2，根据规则3，去除最高项的常量，变成N²；
+    因此冒泡排序的比较次数的大O表示法为O(N²)；
+  
+  + 冒泡排序次数
+    真实的次数: N*(N-1)/4；【两次比较，需要一次交换】
+    冒泡排序的交换次数是多少呢?
+    如果有两次比较才需要交换一次(不可能每次比较都交换一次)，那么交换次数为 N²/4
+    由于常量不算在大O表示法中，因此，我们可以认为交换次数的大O表示也是O(N²)
+
+</pre>
+
+<script>
+
+  function ArrayList() {
+    this.array = [];
+
+    // 插入数据
+    ArrayList.prototype.insert = function (item) {
+      this.array.push(item);
+    }
+
+    ArrayList.prototype.toString = function () {
+      return this.array.join('-')
+    }
+
+
+    ArrayList.prototype.swap = function (m, n) {
+      let temp = this.array[m];
+      this.array[m] = this.array[n];
+      this.array[n] = temp;
+    }
+
+    ArrayList.prototype.bubbleSort = function () {
+      const len = this.array.length;
+
+      for (let j = len - 1; j >= 0; j--) { // 每一轮比较的次数，都比上一轮少一次
+        for (let i = 0; i < j; i++) {
+          if (this.array[i] > this.array[i + 1]) {
+            this.swap(i, i + 1);
+          }
+        }
+      }
+    }
+
+  }
+
+  const list = new ArrayList();
+
+  list.insert(66)
+  list.insert(88)
+  list.insert(11)
+  list.insert(99)
+  list.insert(12)
+  list.insert(87)
+  list.insert(33)
+  list.insert(100)
+  list.insert(77)
+
+  console.log('原始数据：', list.toString());
+
+  list.bubbleSort();
+  console.log('冒泡排序之后的数据：', list.toString());
+
+</script>
+
+<style>
+  pre {
+    font-size: 14px;
+  }
+</style>

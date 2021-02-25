@@ -1,0 +1,74 @@
+<title>大O表示法</title>
+<pre>
+
+  + 企业规模的概述
+    公司可以按照规模分为：小型企业/中型企业/型企业；
+    在不说明具体员工人数或者占地面积的情况下，我们可以通过这样大概的概念来描述企业的规模。
+
+  + 大O表示法
+    在算法的描述中，我们也可以通过类似的快捷方式来描述计算机算法的效率；
+    在计算机中，这种粗略的度量被称作”大O″表示法；
+    在算法比较的过程中，我们可能更喜欢说:算法A比算法B快两倍.但是这样的比较有时候没有意义；
+    在 数据项个数 发生变化时，算法的效率 会跟着发生改变；
+    所以我们通常使用一种 算法的速度 会如何跟随着 数据量的变化的。
+
+  + 大O表示函数：效率从高到低
+    O(1)          常数
+    O(logn)       对数
+    O(n)          线性
+    O(nlogn)      线性和对数乘积
+    O(n^2)        平方
+    O(2^n)        指数
+
+  + 推导大O表示法的方式
+    ①用常量1取代运行时间中所有的加法常量。【如：76用O(1)表示】
+    ②在修改后的运行次数函数中，只保留最高阶项。【如：2N² + 3N + 1 用O(2N²)表示】
+    ③如果最高存在且不为1，则去除与这个项相乘的常数。【如：2N² + 3N + 1 用O(N²)表示】
+
+
+  + 排序算法
+    1.排序算法有很多：冒泡排序/选择排序/插入排序/归并排序/计数排序( counting sort)/
+      基数排序(radix sort)/希尔排序/堆排序/桶排序；
+    2.我们这里不——列举它们的实现思想，而是选择几个 简单排序 和 高级排序；
+    3.简单排序：冒泡排序 - 选择排序 - 插入排序；
+    4.高级排序：希尔排序 - 快速排序。
+
+
+</pre>
+
+<script>
+
+  function ArrayList() {
+    this.array = [];
+
+    // 插入数据
+    ArrayList.prototype.insert = function(item) {
+      this.array.push(item);
+    }
+
+    ArrayList.prototype.toString = function() {
+      return this.array.join('-')
+    }
+
+  }
+
+  const list = new ArrayList();
+
+  list.insert(66)
+  list.insert(88)
+  list.insert(11)
+  list.insert(99)
+  list.insert(12)
+  list.insert(87)
+  list.insert(33)
+  list.insert(100)
+
+  console.log(list.toString())
+
+</script>
+
+<style>
+  pre {
+    font-size: 14px;
+  }
+</style>
