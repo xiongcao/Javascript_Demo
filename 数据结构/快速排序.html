@@ -1,0 +1,74 @@
+<title>快速排序</title>
+<pre>
+
+  + 排序算法
+    1.排序算法有很多：冒泡排序/选择排序/插入排序/归并排序/计数排序( counting sort)/
+      基数排序(radix sort)/希尔排序/堆排序/桶排序；
+    2.我们这里不——列举它们的实现思想，而是选择几个 简单排序 和 高级排序；
+    3.简单排序：冒泡排序 - 选择排序 - 插入排序；
+    4.高级排序：希尔排序 - 快速排序。
+
+
+  + 快速排序
+    快速排序几乎可以说是目前所有排序算法中,最快的一种排序算法
+    当然,没有任何一种算法是在任意情况下都是最优的
+    比如希尔排序确实在某些情况下可能好于快速排序.
+    但是大多数情况下,快速排序还是比较好的选择.
+
+    希尔排序相当于插入排序的升级版,
+    快速排序是冒泡排序的升级版
+
+   
+</pre>
+
+<script>
+
+  function ArrayList() {
+    this.array = [];
+
+    // 插入数据
+    ArrayList.prototype.insert = function (item) {
+      this.array.push(item);
+    }
+
+    ArrayList.prototype.toString = function () {
+      return this.array.join('-')
+    }
+
+
+    ArrayList.prototype.swap = function (m, n) {
+      let temp = this.array[m];
+      this.array[m] = this.array[n];
+      this.array[n] = temp;
+    }
+
+    ArrayList.prototype.quickSort = function () {
+
+    }
+
+  }
+
+  const list = new ArrayList();
+
+  list.insert(66)
+  list.insert(88)
+  list.insert(11)
+  list.insert(99)
+  list.insert(12)
+  list.insert(87)
+  list.insert(33)
+  list.insert(100)
+  list.insert(77)
+
+  console.log('原始数据：', list.toString());
+
+  list.quickSort();
+  console.log('排序之后的数据：', list.toString());
+
+</script>
+
+<style>
+  pre {
+    font-size: 14px;
+  }
+</style>
