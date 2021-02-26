@@ -1,0 +1,136 @@
+<title>插入排序</title>
+<pre>
+
+  + 排序算法
+    1.排序算法有很多：冒泡排序/选择排序/插入排序/归并排序/计数排序( counting sort)/
+      基数排序(radix sort)/希尔排序/堆排序/桶排序；
+    2.我们这里不——列举它们的实现思想，而是选择几个 简单排序 和 高级排序；
+    3.简单排序：冒泡排序 - 选择排序 - 插入排序；
+    4.高级排序：希尔排序 - 快速排序。
+
+  + 插入排序
+    1.插入排序是简单排序中效率最好的一种
+    2.插入排序也是学习其他高级排序的基础，比如希尔排序/快速排序，所以也非常重要.
+
+  + 局部有序
+    插入排序思想的核心是局部有序。什么是局部有序呢？
+    比如在一个队列中的人，我们选择其中一个作为标记的队员；
+    这个 被标记的队员左边 的所有队员已经是局部有序的；
+    这意味着，有一部分人是按顺序排列好的，有一部分还没有顺序。
+
+
+  + 思路
+    从第一个元素开始，该元素可以认为已经被排序；
+    取出下一个元素，在已经排序的元素序列中从后向前扫描；
+    如果该元素(已排序)大于新元素，将该元素移到下一位置；
+    重复上一个步骤，直到找到已排序的元素小于或者等于新元素的位置；
+    将新元素插入到该位置后，重复上面的步骤。
+
+  + 比较次数：
+    第一次，最多需要比较一次，第二次最多需要2次，以此类推，最后一次是 N-1 次；
+    因此插入排序的最多比较次数是：1+2+3+...+N-1 = N*(N-1)/2;
+    然而毎趟发现插入点之前，平均只有全体数据项的一半需要进行比较我们可以除以2得到N*(N-1)/4.
+    所以相对于选择排序，其比较次数是少了一半的。
+
+
+  + 插入排序的复制次数
+    第一趟时，需要的最多复制次数是1，第二趟最多次数是2，依次类推，最后一趟是N-1次；
+    因此复制次数最多是1+2+3+…+N-1=N*N-1)/2；
+    平均次数N*(N-1)/4。
+
+  + 对于基本有序的情况
+    对于已经有序或基本有序的数据来说，插入排序要好很多；
+    当数据有序的时候 while循环的条件总是为假，所以它变成了外层循环中的个简单语句，执行N-1次；
+    在这种情况下，算法运行至需要O(N)的时间，效率相对来说会更高；
+    另外别忘了，我们的比较次数是选择排序的一半，所以这个算法的 效率 是 高于 选择排序 的。
+
+
+    + 插入排序的O表示法：
+    与冒泡排序一样，O(N²)；
+    
+  
+  + 插入排序交换次数：
+    1.每次比较最多（也可能不交换）只需要交换一次，一共需要 N-1 次;
+    2.用大O表示法，就是O(N);
+    3.所以选择排序通常认为在执行效率上是 高于 冒泡排序的。
+    
+
+</pre>
+
+<script>
+
+  function ArrayList() {
+    this.array = [];
+
+    // 插入数据
+    ArrayList.prototype.insert = function (item) {
+      this.array.push(item);
+    }
+
+    ArrayList.prototype.toString = function () {
+      return this.array.join('-')
+    }
+
+
+    ArrayList.prototype.swap = function (m, n) {
+      let temp = this.array[m];
+      this.array[m] = this.array[n];
+      this.array[n] = temp;
+    }
+
+    ArrayList.prototype.insertionSort = function () {
+
+      // 1.获取数组长度
+      const len = this.array.length;
+      let temp;
+
+      // 2.外层循环，从第1个位置开始获取数据，向前 局部有序 进行插入
+      for (let j = 1; j < len; j++) {
+
+        // 3.内层循环：获取第j位置的元素，和前面的元素依次比较
+        temp = this.array[j];
+
+        // 使用for循环，次数已经确定，效率没有while高
+        // for (let i = 0; i < j; i++) {
+        //   if (temp < this.array[i]) {
+        //     this.swap(i, j);
+        //   }
+        // }
+
+        let i = j;
+        while (this.array[i - 1] > temp && i > 0) {
+          this.array[i] = this.array[i - 1]
+          i--;
+        }
+
+        // 4.将i位置的数据，放置temp就可以啦
+        this.array[i] = temp;
+      }
+    }
+
+  }
+
+  const list = new ArrayList();
+
+  list.insert(66)
+  list.insert(88)
+  list.insert(11)
+  list.insert(99)
+  list.insert(12)
+  list.insert(87)
+  list.insert(33)
+  list.insert(100)
+  list.insert(77)
+
+  console.log('原始数据：', list.toString());
+
+  list.insertionSort();
+  console.log('排序之后的数据：', list.toString());
+
+</script>
+
+<style>
+  pre {
+    font-size: 14px;
+  }
+</style>
