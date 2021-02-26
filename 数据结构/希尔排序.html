@@ -1,0 +1,116 @@
+<title>希尔排序</title>
+<pre>
+
+  + 排序算法
+    1.排序算法有很多：冒泡排序/选择排序/插入排序/归并排序/计数排序( counting sort)/
+      基数排序(radix sort)/希尔排序/堆排序/桶排序；
+    2.我们这里不——列举它们的实现思想，而是选择几个 简单排序 和 高级排序；
+    3.简单排序：冒泡排序 - 选择排序 - 插入排序；
+    4.高级排序：希尔排序 - 快速排序。
+
+  + 希尔排序
+    1.希尔排序是插入排序的一种高效的改进版,并且效率比插入排序要更快.
+    2.插入排序也是学习其他高级排序的基础，比如希尔排序/快速排序，所以也非常重要.
+
+  + 思路
+    
+    比如下面的数字，81,94,11,96,12,35,17,95,28,58,41,75,15：
+      
+    我们先让间隔为5，进行排序：
+    (35,81)，(94,17)，(11,95)，(96,28)，(12,58)，(35,41)，(17,75)，(95,15)
+
+    排序后的新序列一定可以让数字离自己的正确位置更近一步。
+
+    我们再让间隔位3，进行排序：
+    (35,28,75,5895)，(17,12,15,81)，(11,41,96,94)
+    排序后的新序列，一定可以让数字离自己的正确位置又近了一步最后。
+
+    我们让间隔为1，也就是正确的插入排序。
+    这个时候数字都离自己的位置更近，那么需要复制的次数一定会减少很多。
+
+  + 希尔排序的效
+    希尔排序的效率很增量是有关系的；
+    但是，它的效率证明非常困难，甚至某些增量的效率到目前依然没有被证明岀来；
+    但是经过统计，希尔排序使用原始增量，最坏的情况下时间复杂度为O(N²)，通常情况下都要好于O(N²)。
+
+  + 总之我们使用希尔排序大多数情况下效率都高于简单排序
+    这个可以通过统计排序算法的时间来证明；
+    甚至在合适的增量和某些数量N的情况下，还好好于快速排序。
+</pre>
+
+<script>
+
+  function ArrayList() {
+    this.array = [];
+
+    // 插入数据
+    ArrayList.prototype.insert = function (item) {
+      this.array.push(item);
+    }
+
+    ArrayList.prototype.toString = function () {
+      return this.array.join('-')
+    }
+
+
+    ArrayList.prototype.swap = function (m, n) {
+      let temp = this.array[m];
+      this.array[m] = this.array[n];
+      this.array[n] = temp;
+    }
+
+    ArrayList.prototype.shellSort = function () {
+      // 1.获取数组长度
+      const len = this.array.length;
+
+      // 2.初始化增量
+      let gap = Math.floor(len / 2);
+
+      // 3.while循环，gap不断减小至1
+      while (gap >= 1) {
+
+        // 4.以gap作为间隙，进行分组，对分组进行插入排序
+        for (let i = gap; i < len; i++) {
+
+          let temp = this.array[i];
+          let j = i;
+
+          while (temp < this.array[j - gap] && j > gap - 1) {
+            this.array[j] = this.array[j - gap];
+            j -= gap;
+          }
+
+          // 5.将j位置元素赋值temp
+          this.array[j] = temp;
+        }
+        // 6.增量变化
+        gap = Math.floor(gap / 2);
+      }
+
+    }
+  }
+
+  const list = new ArrayList();
+
+  list.insert(66)
+  list.insert(88)
+  list.insert(11)
+  list.insert(99)
+  list.insert(12)
+  list.insert(87)
+  list.insert(33)
+  list.insert(100)
+  list.insert(77)
+
+  console.log('原始数据：', list.toString());
+
+  list.shellSort();
+  console.log('排序之后的数据：', list.toString());
+
+</script>
+
+<style>
+  pre {
+    font-size: 14px;
+  }
+</style>
