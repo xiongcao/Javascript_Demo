@@ -79,13 +79,6 @@
         // 3.内层循环：获取第j位置的元素，和前面的元素依次比较
         temp = this.array[j];
 
-        // 使用for循环，次数已经确定，效率没有while高
-        // for (let i = 0; i < j; i++) {
-        //   if (temp < this.array[i]) {
-        //     this.swap(i, j);
-        //   }
-        // }
-
         let i = j;
         while (this.array[i - 1] > temp && i > 0) {
           this.array[i] = this.array[i - 1]
@@ -115,6 +108,47 @@
 
   list.insertionSort();
   console.log('排序之后的数据：', list.toString());
+
+
+  const array = [23, 4, 76, 10, 72, 7, 100, 12, 13];
+  function insertionSort(array) {
+    // 1.声明一个新数组，用于放置手里的牌
+    const handArray = [];
+
+    // 2.将第一张牌作为已经排好序的牌
+    handArray.push(array[0]);
+
+    // 3.遍历桌上的牌
+    for (let i = 1; i < array.length; i++) {
+
+      // 抽到的桌上的牌
+      const item = array[i];
+
+      // 4.从 右往左（大到小），遍历手里的牌
+      for (let j = handArray.length - 1; j >= 0; j--) {
+        const hand = handArray[j];
+
+        // 5.抽到的牌 比 手里 的牌大，放后面；如果比手牌小，则继续向前（左）比较
+        if (item > hand) {
+          handArray.splice(j + 1, 0, item);
+          break;
+        }
+
+        // 6.如果是最后一张牌，则把 新牌 插入到最前面即可
+        if (j === 0) {
+          // handArray.splice(0, 0, item);
+          handArray.unshift(item);
+        }
+      }
+
+    }
+
+    return handArray;
+
+  }
+
+  console.log('原始数据：', array.toString());
+  console.log('排序之后的数据：', insertionSort(array).toString());
 
 </script>
 
