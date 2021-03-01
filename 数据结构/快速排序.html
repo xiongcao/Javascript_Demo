@@ -10,15 +10,22 @@
 
 
   + 快速排序
-    快速排序几乎可以说是目前所有排序算法中,最快的一种排序算法
-    当然,没有任何一种算法是在任意情况下都是最优的
-    比如希尔排序确实在某些情况下可能好于快速排序.
-    但是大多数情况下,快速排序还是比较好的选择.
+    快速排序几乎可以说是目前所有排序算法中，最快的一种排序算法；
+    当然，没有任何一种算法是在任意情况下都是最优的；
+    比如希尔排序确实在某些情况下可能好于快速排序；
+    但是大多数情况下，快速排序还是比较好的选择。
 
-    希尔排序相当于插入排序的升级版,
+    希尔排序相当于插入排序的升级版，
     快速排序是冒泡排序的升级版
 
-   
+  + 快速排序的最坏情况效率
+    什么情况下会有最坏的效率呢？就是每次选择的枢纽都是最左边或者最后边的；
+    那么效率等同于冒泡排序口；
+    而我们的例子可能有最坏的情况吗？是不可能的.因为我们是选择三个值的中位值。
+    
+  + 快速排序的平均效率
+    快速排序的平均效率是O(N*logN)
+    虽然其他某些算法的效率也可以达到O(N*logN)，但是快速排序是最好的
 </pre>
 
 <script>
@@ -42,23 +49,84 @@
       this.array[n] = temp;
     }
 
-    ArrayList.prototype.quickSort = function () {
+    // 选择枢纽
+    ArrayList.prototype.median = function (left, right) {
+      // 1.取出中位数
+      let center = Math.floor((left + right) / 2);
+
+      // 2.判断大小，并进行交换位置
+      if (this.array[left] > this.array[center]) {
+        this.swap(left, center);
+      }
+
+      if (this.array[center] > this.array[right]) {
+        this.swap(center, right);
+      }
+
+      if (this.array[left] > this.array[center]) {
+        this.swap(left, center);
+      }
+
+      // 3.将中位数与倒数第二个数交换
+      this.swap(center, right - 1);
+
+      // 4.返回枢纽数（即：交换后的中位数，倒数第二个数）
+      return this.array[right - 1];
 
     }
 
+    ArrayList.prototype.quickSort = function () {
+      this.quick(0, this.array.length - 1);
+    }
+
+    ArrayList.prototype.quick = function (left, right) {
+      // 1.结束条件
+      if (left >= right) {
+        return;
+      }
+
+      // 2.获取枢纽数
+      const pivot = this.median(left, right);
+      console.log(pivot)
+
+      // 3.标记当前找到的位置
+      let i = left, j = right - 1;
+
+      // 4.进行交换操作
+      while (true) {
+
+        while (this.array[++i] < pivot) { }
+        while (this.array[--j] > pivot) { }
+
+        if (i < j) {
+          this.swap(i, j);
+        } else {
+          break;
+        }
+
+      }
+
+      // 5.将枢纽放置在正确的位置，i的位置
+      this.swap(i, right - 1);
+
+      // 6.分而治之
+      this.quick(left, i - 1);
+      this.quick(i + 1, right);
+
+    }
   }
 
   const list = new ArrayList();
 
-  list.insert(66)
-  list.insert(88)
-  list.insert(11)
-  list.insert(99)
-  list.insert(12)
-  list.insert(87)
-  list.insert(33)
+  list.insert(23)
+  list.insert(4)
+  list.insert(76)
+  list.insert(10)
+  list.insert(72)
+  list.insert(7)
   list.insert(100)
-  list.insert(77)
+  list.insert(12)
+  list.insert(13)
 
   console.log('原始数据：', list.toString());
 
