@@ -87,7 +87,6 @@
 
       // 2.获取枢纽数
       const pivot = this.median(left, right);
-      console.log(pivot)
 
       // 3.标记当前找到的位置
       let i = left, j = right - 1;
@@ -116,6 +115,7 @@
     }
   }
 
+
   const list = new ArrayList();
 
   list.insert(23)
@@ -132,6 +132,42 @@
 
   list.quickSort();
   console.log('排序之后的数据：', list.toString());
+
+
+  const array = [23, 4, 76, 10, 72, 7, 100, 12, 13];
+
+  function quickSort(array) {
+
+    // 1.数组元素小于2个则不用比较排序，直接结束递归
+    if (array.length <= 1) return array;
+
+    // 2.获取 中位数 索引
+    const pivotIndex = Math.floor(array.length / 2);
+
+    // 3.获取 中位数 值
+    const pivotValue = array.splice(pivotIndex, 1)[0];
+
+    // 4.声明两个数组，一个保存中位数左边的元素，一个保存中位数右边的元素
+    const leftArray = [], rightArray = [];
+
+    // 5.循环数组中剩余的元素，放入对应左右两个数组中
+
+    for (let i = 0; i < array.length; i++) {
+      const item = array[i];
+
+      // 6.小于 中位数 的元素放入左边的数组，大于的放入 右边的数组
+      item > pivotValue ? rightArray.push(item) : leftArray.push(item);
+    }
+
+    // 7.递归，让左右两个数组按照以上方法处理，直到左右两边数组都排好序
+    // 然后，将左边数组，中位数元素，右边数组拼接在一起，即得到排好序之后的新数组
+
+    return quickSort(leftArray).concat(pivotValue, quickSort(rightArray));
+  }
+
+  console.log(quickSort(array))
+
+
 
 </script>
 
