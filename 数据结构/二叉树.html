@@ -181,7 +181,7 @@
 
     // 搜索特定的节点（值）
     BinarySearchTree.prototype.search = function (key) {
-      
+
       // 一、循环方式
       // 结束循环条件 node === null
 
@@ -189,7 +189,7 @@
       let node = this.root;
 
       // 2.遍历所有节点
-      while(node) {
+      while (node) {
         if (key < node.key) { // 向左查找
           node = node.left;
         } else if (key > node.key) { // 向右查找
@@ -200,7 +200,7 @@
       }
       return false;
 
-      
+
       // 二、递归方式
       // return this.searchNode(this.root, key)
     }
@@ -221,7 +221,7 @@
       } else {
         return true;
       }
-      
+
     }
 
     /**
@@ -250,7 +250,7 @@
       let isLeftChild = true;
 
       // 1.2 遍历查找
-      while(currentNode.key !== key) {
+      while (currentNode.key !== key) {
         parentNode = currentNode;
 
         if (key < currentNode.key) { // 向左查找
@@ -262,15 +262,15 @@
         }
 
         // 直到遍历到了最后的节点，依然没有找到 == key 的节点
-        if(currentNode === null) return false;
+        if (currentNode === null) return false;
       }
 
       // 2.根据对应的情况删除节点
       // 2.1 删除的节点是叶子节点
-      if(currentNode.left === null && currentNode.right === null) {
-        if(currentNode === this.root) {
+      if (currentNode.left === null && currentNode.right === null) {
+        if (currentNode === this.root) {
           this.root = null;
-        } else if(isLeftChild ) {
+        } else if (isLeftChild) {
           parentNode.left = null;
         } else {
           parentNode.right = null;
@@ -288,12 +288,12 @@
       // 2.2.1 当前节点在左节点，currentNode.left === parentNode.left;(例如：5)
       // left:  parentNode.left = currentNode.left;（有3无6的情况）
       // right: parentNode.left = currentNode.right;（有6无3的情况）
-      
-      else if(currentNode.right === null) {
+
+      else if (currentNode.right === null) {
         // 当前节点为根节点，父节点为null
-        if(currentNode === this.root) {
+        if (currentNode === this.root) {
           this.root = currentNode.left;
-        } else if(isLeftChild) {
+        } else if (isLeftChild) {
           parentNode.left = currentNode.left; // （有3无6的情况）
         } else {
           parentNode.right = currentNode.left; // （有8无10的情况）
@@ -303,11 +303,11 @@
       // 2.2.2 当前节点在右节点，currentNode.right === parentNode.right;(例如：9)
       // left:  parentNode.right = currentNode.left;（有8无10的情况）
       // right: parentNode.right = currentNode.right;（有10无8的情况）
-      else if(currentNode.left === null) {
+      else if (currentNode.left === null) {
         // 当前节点为根节点，父节点为null
-        if(currentNode === this.root) {
+        if (currentNode === this.root) {
           this.root = currentNode.right;
-        } else if(isLeftChild) {
+        } else if (isLeftChild) {
           parentNode.left = currentNode.right; // （有6无3的情况）
         } else {
           parentNode.right = currentNode.right; // （有10无8的情况）
@@ -315,12 +315,74 @@
       }
 
 
+      /**
+       *             11
+       *        7             15
+       *    5      9      13      20
+       *  3      8  10  12  14  18  25
+       *                          19
+       * 
+       * 19连着18连着20
+       */
+
       // 2.3 删除的节点有两个子节点
+      // 情况一：删除节点9，任选8或者10放到原本9的位置
 
+      // 情况二：删除节点7
+      // - 方案一：左边：将5移到7的位置，3移到原本5的位置；
+      // - 方案二：右边：将8放到7的位置
 
+      // 情况三：删除节点15
+      // - 方案一：左边：将14放到15的位置
+      // - 方案二：右边：将18放到15的位置，19移到原本18的位置；
+
+      // 规律 & 思路
+      // + 如果我们要删除的节点有两个子节点甚至子节点还有子节点,
+      // 这种情况下我们需要从下面的子节点中找到个节点,来替换当前的节点
+
+      // + 但是找到的这个节点有什么特征呢?应该是 current节点下面所有节点中最接近 current节点的
+      // - 要么比 current节点小一点点要么比 current节点大一点点
+      // - 总之你最接近 current,你就可以用来替换 current的位置.
+
+      // + 这个节点怎么找呢？
+      // - 比 current小一点点的节点一定是 current左子树的最大值
+      // - 比 current大一点点的节点一定是 current右子树的最小值
+
+      // + 前驱&后继
+      // - 在二叉搜索树中,这两个特别的节点有两个特别的名字
+      // - 比 current小一点点的节点称为 current节点的前区
+      // - 比 current大一点点的节点称为 current节点的后继
+
+      // + 也就是为了能够删除有两个子节点的α urrent,要么找到它的前驱,要么找到它的后继.
+      // + 所以接下来,我们先找到这样的节点(前驱或者后继都可以我这里以找后继为例)
+
+      else {
+        // 1.获取后继节点
+        let successor = this.getSuccssor(currentNode)
+
+        // 2.判断是否为根节点
+        if (currentNode === this.root) {
+          this.root = successor;
+        }
+
+      }
 
     }
 
+    // 找到后继
+    BinarySearchTree.prototype.getSuccssor = function (delNode) {
+      // 1.定义变量，，保存找到的后继
+      let successor = delNode;
+      let current = delNode.right;
+
+      // 2.循环查找
+      while (current !== null) {
+        successor = current;
+        current = current.left;
+      }
+
+      return successor;
+    }
   }
 
   let bst = new BinarySearchTree();
@@ -358,7 +420,7 @@
    *     6   8  10  12  14  18  25
    */
 
-   bst.insert(11);
+  bst.insert(11);
   bst.insert(7);
   bst.insert(15);
   bst.insert(5);
@@ -373,6 +435,7 @@
   bst.insert(18);
   bst.insert(25);
   bst.insert(6);
+  bst.insert(19);
 
   // 测试先序遍历
   let resultString1 = "";
