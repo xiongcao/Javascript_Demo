@@ -1,0 +1,100 @@
+<title>计数排序</title>
+<pre>
+  + 排序算法
+    1.排序算法有很多：冒泡排序/选择排序/插入排序/归并排序/计数排序( counting sort)/
+      基数排序(radix sort)/希尔排序/堆排序/桶排序；
+    2.我们这里不——列举它们的实现思想，而是选择几个 简单排序 和 高级排序；
+    3.简单排序：冒泡排序 - 选择排序 - 插入排序；
+    4.高级排序：希尔排序 - 快速排序 - 归并排序 - 堆排序；
+    5.非比较排序：计数排序 - 基数排序 - 桶排序；
+
+
+  + 计数排序
+    适用于 “数量大，数值范围小” 的情况；
+    如：企业员工年龄排序，考试名次排序
+
+  + 时间复杂度
+    遍历原数组n次 + 遍历结果数组n次 + 遍历计数数组k次 = 2N + k；
+    使用大O表示法，则为O(N + K)；
+
+  + 空间复杂度
+    结果数组的长度(即元素组长度n) + 计数数组长度(k) = O(N + K)；
+
+</pre>
+<script>
+  function ArrayList() {
+    this.array = [];
+
+    // 插入数据
+    ArrayList.prototype.insert = function (item) {
+      this.array.push(item);
+    }
+
+    ArrayList.prototype.toString = function () {
+      return this.array.join(',')
+    }
+
+    ArrayList.prototype.swap = function (m, n) {
+      let temp = this.array[m];
+      this.array[m] = this.array[n];
+      this.array[n] = temp;
+    }
+
+    ArrayList.prototype.countingSort = function () {
+      // 1.获取数组元素的最大值
+      // 1.1 ES6的方法
+      const max = Math.max(...this.array);
+      // 1.2 ES5的方法
+      // const max = Math.max.apply(null, this.array)
+
+      // 2.声明一个计数数组，并开辟一个最大值的空间
+      const countList = new Array(max + 1).fill(0);
+
+      // 3.遍历原数组
+      for (let i = 0; i < this.array.length; i++) {
+        const item = this.array[i];
+        countList[item]++;
+      }
+
+      // 4.声明一个结果数组
+      const result = [];
+
+      // 5.遍历计数数组，依次取出元素放入结果数组
+      for (let i = 0, j = 0; i < countList.length; i++) {
+        let item = countList[i];
+
+        while (item-- > 0) {
+          result[j++] = i;
+        }
+      }
+
+      this.array = [...result];
+    }
+  }
+
+  const list = new ArrayList();
+
+  // list.array = [1, 4, 7, 1, 5, 9, 5, 4, 7, 6, 2, 7, 8, 0, 3, 1, 7, 2, 5, 9, 7, 6, 2, 7, 8, 0, 3, 1];
+
+  list.insert(66)
+  list.insert(88)
+  list.insert(11)
+  list.insert(99)
+  list.insert(12)
+  list.insert(87)
+  list.insert(33)
+  list.insert(100)
+  list.insert(77)
+
+  console.log('原始数据：', list.array);
+
+  list.countingSort();
+  console.log('排序之后的数据：', list.array);
+
+</script>
+
+<style>
+  pre {
+    font-size: 14px;
+  }
+</style>
