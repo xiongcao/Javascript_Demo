@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 
 import MyUI from './libs/MyUI'
+import i18nPlugin from './plugins/i18n'
 
 const app = createApp(App);
 
@@ -15,6 +16,13 @@ app.use(MyUI, {
     'carousel'
   ]
 })
+
+const i18nStrings = {
+  greetings: {
+    hi: 'Hallo!'
+  }
+}
+app.use(i18nPlugin, i18nStrings)
 
 // 注册全局prototype
 
@@ -31,12 +39,13 @@ app.config.globalProperties.$http = () => {
 
 // 自定义options
 app.config.optionMergeStrategies.custom = (toVal, fromVal) => {
+  // console.log('fromVal:', fromVal, 'toVal:', toVal)
   return fromVal || toVal; // 使用子实例的值
   // return toVal || fromVal; // 使用父实例的值
 }
 
 app.mixin({
-  custom: 'goodbye!',
+  custom: 'parent custom options!',
   created() {
     // console.log('main ',this.$options.custom) // => "hello!"
   }

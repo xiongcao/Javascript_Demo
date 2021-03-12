@@ -61,9 +61,9 @@ export default {
 
     // console.log('setup in ', ctx.$http())
   },
-  custom: 'hello custom options',
+  custom: 'child custom options',
   created() {
-    // console.log('app: ',this.$options.custom)
+    console.log('child: ',this.$options.custom)
 
     // console.log('options api ', this.$http()) // globalProperties $http
   }
