@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
+import store from './store'
 
 import MyUI from './libs/MyUI'
 import i18nPlugin from './plugins/i18n'
@@ -51,4 +52,4 @@ app.mixin({
   }
 })
 
-app.use(router).mount('#app');
+app.use(router).use(store).mount('#app');

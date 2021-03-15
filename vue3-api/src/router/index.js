@@ -5,6 +5,7 @@ import ComAsync from '../views/guide/com-async.vue'
 import Animation from '../views/guide/animation.vue'
 import Directive from '../views/guide/directive.vue'
 import Teleport from '../views/guide/teleport.vue'
+import Store from '../views/guide/store.vue'
 import MyRouter from '../views/router/index.vue'
 import Layout from '../views/router/layout.vue'
 import Main from '../components/router/Main.vue'
@@ -40,6 +41,11 @@ const routes = [
     path: '/teleport',
     name: 'teleport',
     component: Teleport
+  },
+  {
+    path: '/store',
+    name: 'store',
+    component: Store
   },
   {
     path: '/carousel',
