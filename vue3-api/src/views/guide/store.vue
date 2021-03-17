@@ -6,13 +6,27 @@
     <h2>getters: {{getInfo}}</h2>
     <button @click="handleChangeCount('+')">+</button>
     <button @click="handleChangeCount('-')">-</button>
+    <h2>show</h2>
+    <tab-home v-if="show"/>
+    <button @click="show = !show">显示/隐藏</button>
+    <h2>Array Active</h2>
+    <p>总长度为：{{persons}}</p>
+    <!-- <p>数组元素：<span v-for="(item, i) in  persons" :key="i">{{item.name}}-</span>；</p> -->
+    <button @click="handleListElement">添加元素</button>
+    <button @click="handleChangeLen">改变长度</button>
   </div>
 </template>
 <script>
+import TabHome from '../../components/guide/TabHome.vue'
 
 import { mapState, mapGetters, mapActions } from 'vuex'
 
+import { reactive, ref, toRefs  } from 'vue'
+
 export default {
+  components: {
+    TabHome
+  },
   // 方法一
   // computed: {
   //   count() {
@@ -50,9 +64,35 @@ export default {
   },
   data() {
     return {
- 
+      show: true,
+      persons: [{
+        name: 'random1'
+      }]
     };
   },
+  // setup() {
+    
+  //   const show = ref(false);
+
+  //   const persons = reactive([{
+  //     name: 'Random1'
+  //   }])
+
+  //   const handleListElement = () => {
+  //     persons[persons.length] = {
+  //       name: 'Random' + parseInt(Math.random() * 10)
+  //     }
+  //     console.log(persons);
+      
+  //   }
+
+  //   return {
+  //     show,
+  //     // ...toRefs(persons)
+  //     persons,
+  //     handleListElement
+  //   }
+  // },
   methods: {
     ...mapActions('app', [
       'postCount'
@@ -72,7 +112,24 @@ export default {
       // }
 
       this.postCount()
-    }
+    },
+    handleListElement() {
+      // this.persons.push({
+      //   name: 'Random' + parseInt(Math.random() * 10)
+      // })
+      // this.persons[this.persons.length] = {
+      //   name: 'Random' + parseInt(Math.random() * 10)
+      // }
+
+      // this.$set(this.persons, this.persons.length, {
+      //   name: 'Random' + parseInt(Math.random() * 10)
+      // })
+      // console.log(this.persons)
+    },
+    // handleChangeLen() {
+    //   this.persons.length = 3
+    //   console.log(this.persons)
+    // }
   }
 };
 </script>
