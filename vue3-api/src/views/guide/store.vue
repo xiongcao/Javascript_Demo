@@ -56,7 +56,8 @@ export default {
     // }),
     ...mapState('app', [
       'count',
-      'message'
+      'message',
+      'list'
     ]),
     ...mapGetters('app', [
       'getInfo'
@@ -69,6 +70,9 @@ export default {
         name: 'random1'
       }]
     };
+  },
+  created() {
+    console.log(this.list.get('a'))
   },
   // setup() {
     

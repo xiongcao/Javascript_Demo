@@ -18,7 +18,7 @@
       height: 200px;
     }
 
-    div {
+    /* div {
       width: 200px;
       height: 200px;
       border: 1px solid blue;
@@ -31,14 +31,28 @@
     div:last-child {
       float: left;
       background: red;
-    }
+    } */
+
+    .news-top {
+			display: flex;
+			flex-direction: column;
+			justify-content: space-around;
+		}
   </style>
 </head>
 
 <body>
   <main>
-    <div>1111</div>
-    <div>222</div>
+    <!-- <div>1111</div>
+    <div>222</div> -->
+    <div class="news-top">
+			<div class="news-top_province">
+				河南
+			</div>
+			<div class="news-top_title">
+				咨询
+			</div>
+		</div>
   </main>
   <script src="index.js" type="text/javascript"></script>
 </body>

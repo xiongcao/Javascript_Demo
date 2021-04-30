@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="./index.js"></script>
+</head>
+<body>
+  <script>
+    let p = new MyPromise((resolve, reject) => {
+      setTimeout(() => {
+        // resolve('成功');
+        reject('失败');
+      //   console.log('自定义promise')
+      }, 1000)
+    })
+    .then()
+    .then(res => {
+      console.log('then1-res:', res)
+      // a
+      // throw new Error('fail');
+      // return res;
+      return new MyPromise((resolve, reject) => {
+        setTimeout(() => {
+          // resolve('aabb')
+          reject('aabb')
+        });
+      })
+    }, error => {
+      console.log('then1-error: ', error)
+      // return error;
+      return new MyPromise((resolve, reject) => {
+        setTimeout(() => {
+          // resolve('ccdd')
+          reject('ccdd')
+        });
+      })
+    })
+    .then(res => {
+      console.log('then2-res:', res)
+    }, error => {
+      console.log('then2-error: ', error)
+    })
+
+
+    // let p = new Promise((resolve, reject) => {
+    //   setTimeout(() => {
+    //     reject(111);
+    //     console.log('自定义promise')
+    //   }, 1000)
+    // }).then(res => {
+    //   console.log(res)
+    // }, error => {
+    //   console.log('error: ', error)
+    // });
+
+    console.log(222)
+  </script>
+</body>
+</html>

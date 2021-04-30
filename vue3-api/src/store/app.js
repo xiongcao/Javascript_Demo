@@ -2,7 +2,10 @@ export default {
   namespaced: true,
   state: {
     count: 1,
-    message: 'hello world'
+    message: 'hello world',
+    list: new Map([
+      ['a', 1]
+    ])
   },
   mutations: {
     setCount(state, payload) {
