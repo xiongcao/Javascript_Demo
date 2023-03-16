@@ -11,6 +11,9 @@ class Observer {
     }
   }
 
+  // watcher 订阅者
+  // Dep 订阅器
+
   defineReactive(obj, key, value) {
     // 递归 遍历属性
     this.observer(value);
@@ -20,6 +23,7 @@ class Observer {
       enumerable: true,
       get() {
         // 订阅数据变化时，往 Dep 中添加观察者
+        // 往Dep中收集依赖（属性/观察者），一个属性对应一个观察者
         Dep.target && dep.addSub(Dep.target);
         return value;
       },

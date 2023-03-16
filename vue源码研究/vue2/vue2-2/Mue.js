@@ -166,7 +166,7 @@ class Mue {
     this.$computed = options.computed;
 
     if (this.$el) {
-      // 1.实现一个数据观察者
+      // 1.实现一个数据观察者，劫持监听所有属性
       new Observer(this.$data);
 
       // 将 this.$data 代理到 this 上

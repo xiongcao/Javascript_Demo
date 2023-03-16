@@ -60,23 +60,19 @@
 
 
     const $route = document.querySelectorAll('.route')
-    let url = location.pathname;
 
     for (let i = 0; i < $route.length; i++) {
       const route = $route[i];
-
       route.addEventListener('click', function(e) {
         const name = e.target.classList[1]
-
         historyRender(name)
-
-        window.history.pushState(null, null, url + '/' + name)
+        window.history.pushState(null, null, name)
       })
       
     }
 
     window.addEventListener('popstate', function(e) {
-      console.log(1111)
+      historyRender(location.pathname.slice(1))
     })
 
   </script>
