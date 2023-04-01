@@ -37,10 +37,10 @@
 
     // 防抖
     // btn.addEventListener('click', submit, false);
-    btn.addEventListener('click', debounce(submit, 2000, true), false);
+    // btn.addEventListener('click', debounce(submit, 2000, true), false);
 
     // 节流
-    // btn.addEventListener('click', throttle(submit, 2000), false);
+    btn.addEventListener('click', throttle(submit, 2000), false);
 
     function submit(e) {
       console.log(this, e)
@@ -88,7 +88,7 @@
           clearTimeout(t);
         }
 
-        if (!t) { // 第一次点击
+        if (!t) { // 第一次t肯定为空
           fn.apply(that, _arguments);
         }
 
