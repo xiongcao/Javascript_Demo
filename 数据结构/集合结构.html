@@ -11,7 +11,7 @@
   </pre>
 
 <script>
-  /***************  链表集合 ***********/
+  /***************  集合结构 ***********/
   function Set() {
 
     // 属性（不用数组，用对象的原因：数组允许元素重复）
@@ -54,7 +54,7 @@
 
     // 返回一个包含集合中所有值的数组
     Set.prototype.values = function () {
-      return Object.keys(this.items);
+      return Object.values(this.items);
     }
 
     // 集合间的操作

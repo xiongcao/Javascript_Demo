@@ -84,9 +84,9 @@
     const queue = new Queue();
 
     // 2.将所有人添加到 队列 中
-    nameList.forEach(item => {
+    for (const item of nameList) {
       queue.enqueue(item)
-    })
+    }
 
     // 3.开始数数
     while(queue.size() > 1) {

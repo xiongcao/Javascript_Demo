@@ -43,7 +43,7 @@
     this.head = null;
     this.length = 0;
 
-    // 向列表尾部添加一个新的项
+    // 向链表尾部添加一个新的项
     LinkedList.prototype.append = function (data) {
       const node = new Node(data);
 
@@ -68,7 +68,7 @@
       this.length++;
     }
 
-    // 向列表的特定位置 插入一个新的项
+    // 向链表的特定位置 插入一个新的项
     LinkedList.prototype.insert = function (position, data) {
 
       // 1.对 position 进行越界判断
@@ -116,7 +116,6 @@
 
       // 2.获取对应的data
       let currentNode = this.head;
-
       let index = 0;
 
       while (index++ < position) {
@@ -126,24 +125,20 @@
       return currentNode.data;
     }
 
-    // 返回元素在列表中的索引。如果列表中没有该元素，则返回-1
+    // 返回元素在链表中的索引。如果链表中没有该元素，则返回-1
     LinkedList.prototype.indexOf = function (data) {
 
       let currentNode = this.head;
-
       let index = 0;
 
       while (currentNode) {
-        
         if (data === currentNode.data) {
           return index;
         }
         
         currentNode = currentNode.next;
-
         index++;
       }
-
       return -1;
     }
 
@@ -169,7 +164,7 @@
       return true;
     }
 
-    // 从列表的特定位置删除一项
+    // 从链表的特定位置删除一项
     LinkedList.prototype.removeAt = function (position) {
       // 1.对 position 进行越界判断
       if (position < 0 || position >= this.length) {
@@ -199,7 +194,7 @@
       return currentNode.data;
     }
 
-    // 从列表中删除一项
+    // 从链表中删除一项
     LinkedList.prototype.remove = function (data) {
       // 1.根据元素获取 其位置
       const postion = this.indexOf(data);
@@ -218,7 +213,7 @@
       return this.length
     }
 
-    // 由于列表项使用了Node类，就需要重写继承自JavaScript对象默认的toString方法，让其只输出元素的值
+    // 由于链表项使用了Node类，就需要重写继承自JavaScript对象默认的toString方法，让其只输出元素的值
     LinkedList.prototype.toString = function () {
       let current = this.head;
       let listString = '';
@@ -246,28 +241,28 @@
   linkedList.get(2); // 33
   linkedList.get(4); // null
 
-  linkedList.indexOf(11); // -1
-  linkedList.indexOf('11'); // 0
-  linkedList.indexOf('22'); // 1
+  // linkedList.indexOf(11); // -1
+  // linkedList.indexOf('11'); // 0
+  // linkedList.indexOf('22'); // 1
 
   linkedList.append('66'); // 66
-  linkedList.update(0, '111'); // true, 111
-  linkedList.update(4, '55'); // true, 55
+  // linkedList.update(0, '111'); // true, 111
+  // linkedList.update(4, '55'); // true, 55
 
-  linkedList.removeAt(0); // 111（22，33，44，55）
-  linkedList.removeAt(1); // 22（22，44，55）
+  // linkedList.removeAt(0); // 111（22，33，44，55）
+  // linkedList.removeAt(1); // 22（22，44，55）
 
-  linkedList.remove(22); // false（22，44，55）
-  linkedList.remove('22'); // true（44，55）
+  // linkedList.remove(22); // false（22，44，55）
+  // linkedList.remove('22'); // true（44，55）
 
-  linkedList.size(); // 2（44，55）
-  linkedList.isEmpty(); // false（44，55）
+  // linkedList.size(); // 2（44，55）
+  // linkedList.isEmpty(); // false（44，55）
 
-  linkedList.remove('44'); // false（55）
-  linkedList.remove('55'); // false（55）
+  // linkedList.remove('44'); // false（55）
+  // linkedList.remove('55'); // false（55）
 
-  linkedList.size(); // 0
-  linkedList.isEmpty(); // true
+  // linkedList.size(); // 0
+  // linkedList.isEmpty(); // true
 </script>
 
 <style>
