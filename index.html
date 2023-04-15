@@ -34,25 +34,52 @@
     } */
 
     .news-top {
-			display: flex;
-			flex-direction: column;
-			justify-content: space-around;
-		}
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+    }
+
+    .span-wrapper span {
+      margin: 20px;
+      border: 1px solid red;
+    }
+
+    .bottom-wrapper {
+      height: 20px;
+      border: 1px solid green;
+    }
+
+    #box:after {
+      position: absolute;
+      width: 0px;
+      height: 0px;
+      content: " ";
+      border-right: 100px solid red;
+      border-top: 100px solid #ff0;
+      border-left: 100px solid green;
+      border-bottom: 100px solid blue;
+    }
   </style>
 </head>
 
 <body>
   <main>
+    <div id="box"></div>
     <!-- <div>1111</div>
     <div>222</div> -->
     <div class="news-top">
-			<div class="news-top_province">
+      <!-- <div class="news-top_province">
 				河南
 			</div>
 			<div class="news-top_title">
 				咨询
-			</div>
-		</div>
+			</div> -->
+      <div class="span-wrapper">
+        <span>111</span>
+        <span>222</span>
+      </div>
+      <div class="bottom-wrapper">bottom-wrapper</div>
+    </div>
   </main>
   <script src="index.js" type="text/javascript"></script>
 </body>

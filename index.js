@@ -422,6 +422,272 @@
 // foo(undefined, 10); // 9 10
 
 
+// for (var i = 1; i <= 5; i++) {
+//   (function () {
+//     var j = i;
+//     console.log(i, j)
+//     setTimeout(function timer() {
+//       console.log(j);
+//     }, j * 1000);
+//   })();
+// }
+
+// var i = 1;
+// (function () { 
+//   var j = i;
+//   setTimeout(function timer() { console.log(j); }, j * 1000);
+//  })();
+// i++;
+// (function () { 
+//   var j = i;
+//   setTimeout(function timer() { console.log(j); }, j * 1000);
+//  })();
+// i++;
+// (function () { 
+//   var j = i;
+//   setTimeout(function timer() { console.log(j); }, j * 1000);
+//  })();
+// i++;
+// (function () { 
+//   var j = i;
+//   setTimeout(function timer() { console.log(j); }, j * 1000);
+//  })();
+// i++;
+// (function () { 
+//   var j = i;
+//   setTimeout(function timer() { console.log(j); }, j * 1000);
+//  })();
 
 
+// for (var i = 1; i <= 5; i++) {
+//   let j = i; // 是的，闭包的块作用域！ 
+//   setTimeout(function timer() { console.log(j); }, j * 1000);
+// }
+
+// function foo() {
+//   console.log(a); // 2
+// }
+// function bar() { var a = 3; foo(); }
+// var a = 2;
+// bar();
+
+
+// var obj = {
+//   count: 0,
+//   cool: function coolFn() {
+//     var self = this;
+//     if (self.count < 1) {
+//       setTimeout(function() {
+//         console.log(this)
+//         self.count++;
+//         console.log("awesome?");
+//       }, 100);
+//     }
+//   }
+// };
+// obj.cool(); // 酷吧?
+
+
+// function foo() { 
+//   console.log(this, '111')
+//   var a = 2; this.bar();
+//  }
+// function bar() { 
+//   console.log(this, '2222');
+//   console.log(this.a); 
+// }
+// foo();
+
+
+// var myObject = { a: 2 };
+// myObject.a = 3;
+// console.log(myObject.a)
+// Object.defineProperty(myObject, "a", {
+//   value: 4,
+//   writable: true,
+//   configurable: false, // 不可配置！
+//   enumerable: true
+// });
+// console.log(myObject.a)
+// delete myObject.a;
+// console.log(myObject.a);
+
+// var myObject = { a: 2 };
+// Object.preventExtensions(myObject);
+//  myObject.a = 3;
+// console.log(myObject)
+// // myObject.b;
+
+
+// function Foo(who) { this.me = who; }
+// Foo.prototype.identify = function () { return "I am " + this.me; };
+// function Bar(who) { Foo.call(this, who); }
+// Bar.prototype = Object.create(Foo.prototype);
+// Bar.prototype.speak = function () { console.log("Hello, " + this.identify() + "."); };
+// var b1 = new Bar("b1");
+// var b2 = new Bar("b2");
+// b1.speak();
+// b2.speak();
+
+
+// var a = "foo";
+// var b = ["f","o","o"]
+
+// var c = a.concat( "bar" );
+// var d = b.concat( ["b","a","r"] );
+
+// console.log(a, c)
+// console.log(b, d)
+
+// var obj1 = {
+//   name: 'Alice',
+//   sex: Symbol('woman'),
+//   age: undefined,
+//   eat: function() {
+//     console.log(111)
+//   }
+// }
+
+// var obj2 = JSON.parse(JSON.stringify(obj1))
+// console.log(obj2)
+
+function swap(array, m, n) {
+  const temp = array[m];
+  array[m] = array[n]
+  array[n] = temp;
+}
+
+// 冒泡排序
+function bubbleSort(array) {
+  for (let i = 0; i < array.length - 1; i++) {
+    for (let j = 0; j < array.length - i - 1; j++) {
+      if (array[j] > array[j + 1]) {
+        swap(array, j, j + 1)
+      }
+    }
+  }
+}
+
+// 选择排序
+function selectionSort(array) {
+
+  for (let i = 0; i < array.length - 1; i++) {
+    let minIndex = i;
+    for (let j = i + 1; j < array.length; j++) {
+      if (array[minIndex] > array[j]) {
+        minIndex = j;
+      }
+    }
+    swap(array, i, minIndex)
+  }
+}
+
+// 插入排序
+// 2, 13, 52, 18, 35, 4
+// 2, 13, 18, 52, 35, 4
+// 2, 13, 18, 52 j-1, 35 j, 4 // c: 35
+// 2, 13, 18, 52 j-1, 52 j, 4 
+// 2, 13, 18 j-1, 52 j, 52, 4 
+function insertionSort(array) {
+  for (let i = 1; i < array.length; i++) {
+    let j = i;
+    let current = array[i];
+    while (current < array[j - 1] && j - 1 > -1) {
+      array[j] = array[j - 1]
+      j--;
+    }
+    array[j] = current;
+  }
+}
+
+// 希尔排序
+function shellSort(array) {
+  // 1.获取数组长度
+  const len = array.length;
+
+  // 2.初始化增量
+  let gap = Math.floor(len / 2);
+
+  // 3.while循环，gap不断减小至1
+  while (gap >= 1) {
+
+    // 4.以gap作为间隙，进行分组，对分组进行插入排序
+    for (let i = gap; i < len; i++) {
+
+      let j = i;
+      let current = array[i];
+
+      while (current < array[j - gap] && j - gap > -1) {
+        array[j] = array[j - gap]
+        j -= gap;
+      }
+
+      // 5.将j位置元素赋值 current
+      array[j] = current;
+    }
+
+    // 6.增量变化
+    gap = Math.floor(gap / 2);
+  }
+}
+
+function median(array, left, right) {
+  let center = Math.floor((left + right) / 2);
+  if (array[left] > array[center]) swap(array, left, center);
+  if (array[center] > array[right]) swap(array, right, center);
+  if (array[left] > array[right]) swap(array, right, left);
+
+  swap(array, center, right);
+  return array[right];
+}
+
+// 快速排序
+function quickSort(array) {
+  const len = array.length;
+
+  quick(0, len - 1);
+  function quick(left, right) {
+    if (left >= right) return;
+    // let pivotIndex = Math.floor((left + right) / 2);
+    // swap(array, pivotIndex, right);
+    // let pivot = array[right];
+
+    let pivot = median(array, left, right);
+
+    let i = left;
+    let j = right - 1;
+
+    while (i <= j) {
+      while (array[i] < pivot) { i++ }
+      while (array[j] > pivot) { j-- }
+
+      if (i <= j) {
+        swap(array, i, j);
+      }
+    }
+
+    swap(array, i, right);
+    quick(left, i - 1)
+    quick(i + 1, right);
+
+  }
+}
+
+const array = [2, 13, 18, 52, 35, 4];
+// bubbleSort(array);
+// selectionSort(array);
+// insertionSort(array);
+// shellSort(array);
+quickSort(array);
+// console.log(array)
+
+// function change(arr) {
+//   return arr.reduce((pre, { key, value }) => {
+//     pre[key] = value;
+//     return pre
+//   }, {})
+// }
+
+// let a = change([{ key: 'a', value: '1' }, { key: 'b', value: '2' }])
+// console.log(a)
 

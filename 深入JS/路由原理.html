@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,7 +8,8 @@
   <title>路由原理</title>
 </head>
 <style>
-  #user, #about {
+  #user,
+  #about {
     display: none;
   }
 
@@ -17,15 +19,19 @@
     text-decoration: underline;
   }
 </style>
+
 <body>
   <h1>hash 路由</h1>
   <a href="#user">用户</a>
   <a href="#about">关于</a>
 
+  <hr>
+
   <h1>history 路由</h1>
   <span class="route user">用户</span>
   <span class="route about">关于</span>
 
+  <hr>
 
   <div id="user">这里是用户模块</div>
   <div id="about">这里是关于模块</div>
@@ -38,11 +44,11 @@
     const $content = document.querySelector('#content')
 
     hashRender()
-    window.addEventListener('hashchange', function(e) {
+    window.addEventListener('hashchange', function (e) {
       hashRender()
     })
 
-    function hashRender () {
+    function hashRender() {
       if (location.hash === '#user') {
         $content.innerHTML = $user.innerHTML
       } else {
@@ -50,7 +56,7 @@
       }
     }
 
-    function historyRender (name) {
+    function historyRender(name) {
       if (name === 'user') {
         $content.innerHTML = $user.innerHTML
       } else {
@@ -63,18 +69,20 @@
 
     for (let i = 0; i < $route.length; i++) {
       const route = $route[i];
-      route.addEventListener('click', function(e) {
+      route.addEventListener('click', function (e) {
         const name = e.target.classList[1]
         historyRender(name)
         window.history.pushState(null, null, name)
+        window.dispatchEvent(new PopStateEvent('popstate'));
       })
-      
     }
 
-    window.addEventListener('popstate', function(e) {
+    window.addEventListener('popstate', function (e) {
+      console.log(location.pathname)
       historyRender(location.pathname.slice(1))
     })
 
   </script>
 </body>
+
 </html>
