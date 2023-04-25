@@ -59,27 +59,36 @@
       border-left: 100px solid green;
       border-bottom: 100px solid blue;
     }
+
+    .outer {
+      height: 100px;
+    }
+
+    .left {
+      width: 200px;
+      /* margin-right: -200px; */
+      height: 100%;
+      background: lightcoral;
+    }
+
+    .right {
+      height: 100%;
+      margin-top: -100px;
+      margin-left: 200px;
+      background: lightseagreen;
+    }
   </style>
 </head>
 
 <body>
   <main>
-    <div id="box"></div>
+    <!-- <div id="box"></div> -->
     <!-- <div>1111</div>
     <div>222</div> -->
-    <div class="news-top">
-      <!-- <div class="news-top_province">
-				河南
-			</div>
-			<div class="news-top_title">
-				咨询
-			</div> -->
-      <div class="span-wrapper">
-        <span>111</span>
-        <span>222</span>
-      </div>
-      <div class="bottom-wrapper">bottom-wrapper</div>
-    </div>
+    <div class="outer">
+      <div class="left">左侧</div>
+      <div class="right">右侧</div>
+    </div>sfsdf
   </main>
   <script src="index.js" type="text/javascript"></script>
 </body>
